@@ -1,29 +1,37 @@
 import React, { useState } from 'react';
+import axios from 'axios'
 
 const Cadastro = () => {
 
-    const [form, setForm] = useState({
-        nome: '',
-        cpf: '',
-        senha: '',
-		tipo_usuario: 1
-    });
+   const [nome, setNome] = useState('')
+   const [cpf, setCpf] = useState('')
+   const [senha, setSenha] = useState('')
 
-	const handleSubmit = async (e) => {
+	const handleRegister = async (e) => {
 		e.preventDefault();
 
 		try {
-			console.log("Usuário cadastrado com sucesso:", response);
-		} catch (error) {			console.error(error);
+			await axios.post('http://localhost:3000/registro', {
+				nome:nome,
+				cpf:cpf,
+				senha:senha
+			})
+			alert("Usuario cadastrado com sucesso")
+		} catch (error) {
+			alert("Erro")
 		}
 	}
 
 
   	return (
     <>
-        <section className="h-screen bg-green-600">  
-			<div className='w-96 h-100 bg-neutral-800'>
+        <section className="h-screen flex items-center justify-center">  
+			<div className='w-150 h-100 bg-neutral-800 flex flex-col items-center justify-center text-white w-full'>
+				<form onSubmit={handleRegister} className='  '>
+					<input type="text" value={nome} onChange={(e) => setNome(e.target.value)}/><input type="number"  value={cpf} onChange={(e) => setCpf(e.target.value)}/><input type="password" value={senha} onChange={(e) => setSenha(e.target.value)}/>
 
+					<button type='submit'>registrar</button>
+				</form>
 			</div>
 		</section>
     </>
@@ -32,87 +40,3 @@ const Cadastro = () => {
 
 export default Cadastro;
 
-{/* <div className="row justify-content-center">  
-	<div className="col-12 col-md-8 col-lg-6">  
-	<div className="card shadow-sm">  
-		<div className="card-body p-4">  
-		<h3 className="card-title text-center mb-4">Cadastro de Usuário</h3>  
-
-		<form onSubmit={handleSubmit}>  
-			<div className="mb-3">  
-			<label htmlFor="nome" className="form-label">  
-				Nome  
-			</label>  
-			<input  
-				id="nome"  
-				type="text"  
-				className="form-control"  
-				placeholder="Seu nome completo"  
-				value={form.nome}  
-				onChange={(e) => setForm({ ...form, nome: e.target.value })}  
-				required  
-			/>  
-			</div>  
-
-			<div className="mb-3">  
-			<label htmlFor="cpf" className="form-label">  
-				E-mail  
-			</label>  
-			<input  
-				id="cpf"  
-				type="cpf"  
-				className="form-control"  
-				placeholder="nome@exemplo.com"  
-				value={form.cpf}  
-				onChange={(e) => setForm({ ...form, cpf: e.target.value })}  
-				required  
-			/>  
-			</div>  
-
-			<div className="mb-3">  
-			<label htmlFor="senha" className="form-label">  
-				Senha  
-			</label>  
-			<input  
-				id="senha"  
-				type="password"  
-				className="form-control"  
-				placeholder="********"  
-				value={form.senha}  
-				onChange={(e) => setForm({ ...form, senha: e.target.value })}  
-				required  
-				minLength={6}  
-			/>  
-			<div className="form-text">Mínimo de 6 caracteres.</div>  
-			</div>  
-
-			<div className="mb-4">  
-			<label htmlFor="tipo_usuario" className="form-label">  
-				Tipo de usuário  
-			</label>  
-			<select  
-				id="tipo_usuario"  
-				className="form-select"  
-				value={form.tipo_usuario}  
-				onChange={(e) =>  
-				setForm({ ...form, tipo_usuario: Number(e.target.value) })  
-				}  
-				required  
-			>  
-				<option value={1}>Usuário normal</option>  
-				<option value={2}>Administrador</option>  
-			</select>  
-			</div>  
-
-			<button type="submit" className="btn btn-primary w-100">  Cadastrar  </button>
-
-		</form>  
-		</div>  
-	</div>  
-
-	<div className="alert alert-info mt-3" role="alert">  
-		Dica: selecione <strong>Administrador (2)</strong> apenas para contas  
-		autorizadas.  
-	</div>  
-	</div>  
-</div>   */}
